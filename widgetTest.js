@@ -169,3 +169,118 @@ module.exports = factoryRouter;
 
 
 
+
+
+
+// Line Item 3: Define a microservice API to create, update, and delete Widgets for each Widget Factory.
+
+// Import necessary packages
+const express = require('express');
+const bodyParser = require('body-parser');
+const Sequelize = require('sequelize');
+
+// Create an instance of the express app
+const app = express();
+
+// Set up bodyParser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Connect to the database
+const sequelize = new Sequelize('database', 'username', 'password', {
+  host: 'localhost',
+  dialect: 'sqlite',
+  storage: 'database.sqlite'
+});
+
+// Define Widget model
+const Widget = sequelize.define('widget', {
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  price: {
+    type: Sequelize.FLOAT,
+    allowNull: false
+  },
+  factoryId: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  }
+});
+
+// Define route to create a widget
+app.post('/factories/:factoryId/widgets', async (req, res) => {
+  try {
+    const widget = await Widget.create({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      factoryId: req.params.factoryId
+    });
+    res.status(201).json(widget);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Define route to update a widget
+app.put('/factories/:factoryId/widgets/:widgetId', async (req, res) => {
+  try {
+    const widget = await Widget.findOne({
+      where: {
+        id: req.params.widgetId,
+        factoryId: req.params.factoryId
+      }
+    });
+    if (widget) {
+      widget.name = req.body.name;
+      widget.description = req.body.description;
+      widget.price = req.body.price;
+      await widget.save();
+      res.status(200).json(widget);
+    } else {
+      res.status(404).json({ message: 'Widget not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Define route to delete a widget
+app.delete('/factories/:factoryId/widgets/:widgetId', async (req, res) => {
+  try {
+    const widget = await Widget.findOne({
+      where: {
+        id: req.params.widgetId,
+        factoryId: req.params.factoryId
+      }
+    });
+    if (widget) {
+      await widget.destroy();
+      res.status(204).send();
+    } else {
+      res.status(404).json({ message: 'Widget not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// MY NEXT LINE ITEM WILL BE: 4 - Define a microservice API to sell Widgets to other Widget Factories based on market conditions.
+
+
+
+
+
+
+
+
+
