@@ -386,3 +386,26 @@ app.get('/widget-factories/:factoryId/widgets', (req, res) => {
 });
 
 // MY NEXT LINE ITEM WILL BE: 8 - Define a microservice API to retrieve a specific Widget.
+
+
+
+
+
+// 8. Define a microservice API to retrieve a specific Widget.
+
+// Get a specific Widget by ID
+app.get('/widget/:id', async (req, res) => {
+  try {
+    const widget = await Widget.findByPk(req.params.id);
+    if (!widget) {
+      res.status(404).json({ message: 'Widget not found' });
+    } else {
+      res.json(widget);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// MY NEXT LINE ITEM WILL BE: 9 - Define a microservice API to retrieve a specific User from a separate microservice.
