@@ -447,3 +447,51 @@ app.get('/users/:id', (req, res) => {
 
 
 
+
+// 10. Ensure that all APIs follow a consistent naming convention and use proper HTTP verbs and response codes.
+
+// Widget Factory APIs
+app.post('/api/widget-factories', createWidgetFactory);
+app.put('/api/widget-factories/:id', updateWidgetFactory);
+app.delete('/api/widget-factories/:id', deleteWidgetFactory);
+
+// Widget APIs
+app.post('/api/widget-factories/:factoryId/widgets', createWidget);
+app.put('/api/widget-factories/:factoryId/widgets/:id', updateWidget);
+app.delete('/api/widget-factories/:factoryId/widgets/:id', deleteWidget);
+
+// Sell Widget API
+app.post('/api/widget-factories/:factoryId/widgets/:id/sell', sellWidget);
+
+// Move Widget API
+app.post('/api/widget-factories/:factoryId/widgets/:id/move', moveWidget);
+
+// Get Widget Factories API
+app.get('/api/widget-factories', getAllWidgetFactories);
+
+// Get Widgets for a specific Widget Factory API
+app.get('/api/widget-factories/:id/widgets', getAllWidgetsForFactory);
+
+// Get Specific Widget API
+app.get('/api/widget-factories/:factoryId/widgets/:id', getSpecificWidget);
+
+// Get Specific User API
+app.get('/api/users/:id', getSpecificUser);
+
+// Handling Invalid Routes
+app.all('*', (req, res) => {
+  res.status(404).json({ error: 'Invalid Route' });
+});
+
+// Handling Errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
+
+// MY NEXT LINE ITEM WILL BE: 11 - Implement proper error handling for all APIs.
+
+
+
+
+
