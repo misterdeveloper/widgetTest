@@ -350,3 +350,22 @@ app.put('/widget/:widgetId/move/:newFactoryId', async (req, res) => {
 });
 
 // MY NEXT LINE ITEM WILL BE: 6 - Define a microservice API to retrieve all Widget Factories.
+
+
+
+
+
+
+// 6. Define a microservice API to retrieve all Widget Factories.
+app.get('/widgetFactories', async (req, res) => {
+  try {
+    const widgetFactories = await WidgetFactory.findAll();
+    res.status(200).json(widgetFactories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// MY NEXT LINE ITEM WILL BE: 7 - Define a microservice API to retrieve all Widgets for a specific Widget Factory.
+
