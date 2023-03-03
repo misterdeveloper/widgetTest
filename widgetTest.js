@@ -283,4 +283,37 @@ app.delete('/factories/:factoryId/widgets/:widgetId', async (req, res) => {
 
 
 
+// 4. Define a microservice API to sell Widgets to other Widget Factories based on market conditions.
+app.post('/widgetfactories/:widgetFactoryId/widgets/:widgetId/sell', (req, res) => {
+  const { widgetFactoryId, widgetId } = req.params;
+
+  // check if widget factory and widget exist
+  WidgetFactory.findByPk(widgetFactoryId).then((widgetFactory) => {
+    if (!widgetFactory) {
+      res.status(404).send('Widget factory not found');
+    } else {
+      Widget.findByPk(widgetId).then((widget) => {
+        if (!widget) {
+          res.status(404).send('Widget not found');
+        } else {
+          // calculate price based on market conditions and sell the widget
+          const price = calculatePrice(widget, widgetFactory);
+          widgetFactory.update({ balance: widgetFactory.balance + price });
+          widget.update({ widgetFactoryId: null });
+          res.status(200).send(`Widget ${widgetId} sold for ${price} to Widget Factory ${widgetFactoryId}`);
+        }
+      });
+    }
+  });
+});
+
+// helper function to calculate widget price based on market conditions
+function calculatePrice(widget, widgetFactory) {
+  // add your logic here to calculate the price based on market conditions
+  return Math.floor(Math.random() * 100) + 1;
+}
+
+// MY NEXT LINE ITEM WILL BE: 5 - Define a microservice API to move Widgets to other Widget Factories based on market conditions.
+
+
 
