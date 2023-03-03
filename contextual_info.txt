@@ -1,10 +1,13 @@
 Reference:
 
 User story: I have a widget factory that produces and maintains widgets. I would like to create a microservice API that allows me to create, update, and delete widget factories. For each widget factory, they need to have the ability to create, update, and delete widgets. Additionally, widgets can be sold and moved to other widget factories depending on market conditions. In order to create the widget factories and widgets, a user must exist first which comes from a pre-existing separate microservice.
-Technologies to be used: Node.js, Express, bcrypt, JWT, jwt-simple, SQLite3, Sequelize, and any additional packages as required.
-Code example requirements: each code snippet must include the line item number and description from the psuedo code list as a comment at the top of each generated code snippet.  At the end of each code example, please include a comment that states "MY NEXT LINE ITEM WILL BE: [Line Item Number] - [Line Item Description]". Where Line Item Number represents the next line item after the one you just worked on, along with its accompanyig text which should be placed in the "Line Item Description" placeholder.
 
-Psueod Code Line Items:
+Technologies to be used: Node.js, Express, bcrypt, JWT, jwt-simple, SQLite3, Sequelize, and any additional packages as required.
+Code example requirements: each code snippet must include the line item number and description from the psuedo code list as a comment at the top of each generated code snippet.  
+
+At the end of each code example, please include a comment that states "MY NEXT LINE ITEM WILL BE: [Line Item Number] - [Line Item Description]". Where Line Item Number represents the next line item after the one you just worked on, along with its accompanyig text which should be placed in the "Line Item Description" placeholder.
+
+Pseudo Code Line Items:
 
 1. Define the data model for Widget Factory, Widget, and User objects.
 2. Define a microservice API to create, update, and delete Widget Factories.
