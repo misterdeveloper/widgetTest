@@ -317,3 +317,36 @@ function calculatePrice(widget, widgetFactory) {
 
 
 
+
+
+// 5. Define a microservice API to move Widgets to other Widget Factories based on market conditions.
+app.put('/widget/:widgetId/move/:newFactoryId', async (req, res) => {
+  const widgetId = req.params.widgetId;
+  const newFactoryId = req.params.newFactoryId;
+
+  try {
+    // Check if the widget exists
+    const widget = await Widget.findByPk(widgetId);
+    if (!widget) {
+      res.status(404).json({ error: 'Widget not found' });
+      return;
+    }
+
+    // Check if the new factory exists
+    const newFactory = await WidgetFactory.findByPk(newFactoryId);
+    if (!newFactory) {
+      res.status(404).json({ error: 'New factory not found' });
+      return;
+    }
+
+    // Move the widget to the new factory
+    await widget.update({ factoryId: newFactory.id });
+
+    res.status(200).json({ message: 'Widget moved successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// MY NEXT LINE ITEM WILL BE: 6 - Define a microservice API to retrieve all Widget Factories.
