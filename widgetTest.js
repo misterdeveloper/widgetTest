@@ -495,3 +495,24 @@ app.use((err, req, res, next) => {
 
 
 
+
+// 11. Implement proper error handling for all APIs
+
+// Define a custom error handler middleware
+app.use((err, req, res, next) => {
+  // Check if the error is a Sequelize validation error
+  if (err instanceof sequelize.ValidationError) {
+    // If it is, extract the error messages
+    const errors = err.errors.map((error) => error.message);
+    // Send the error response with a 422 status code and the error messages
+    res.status(422).json({ errors });
+  } else {
+    // If the error is not a validation error, send a generic error response
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// MY NEXT LINE ITEM WILL BE: 12 - Write unit tests for each API to ensure that they work as expected.
+
+
+
