@@ -369,3 +369,20 @@ app.get('/widgetFactories', async (req, res) => {
 
 // MY NEXT LINE ITEM WILL BE: 7 - Define a microservice API to retrieve all Widgets for a specific Widget Factory.
 
+
+
+
+// 7. Define a microservice API to retrieve all Widgets for a specific Widget Factory.
+
+// Retrieve all widgets for a specific widget factory
+app.get('/widget-factories/:factoryId/widgets', (req, res) => {
+  Widget.findAll({
+    where: { factoryId: req.params.factoryId }
+  }).then(widgets => {
+    res.status(200).json(widgets);
+  }).catch(error => {
+    res.status(500).send('Error retrieving widgets for factory with ID: ' + req.params.factoryId);
+  });
+});
+
+// MY NEXT LINE ITEM WILL BE: 8 - Define a microservice API to retrieve a specific Widget.
