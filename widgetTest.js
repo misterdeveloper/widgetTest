@@ -409,3 +409,41 @@ app.get('/widget/:id', async (req, res) => {
 });
 
 // MY NEXT LINE ITEM WILL BE: 9 - Define a microservice API to retrieve a specific User from a separate microservice.
+
+
+
+
+// 9. Define a microservice API to retrieve a specific User from a separate microservice.
+
+// This endpoint retrieves a user from a separate microservice
+app.get('/users/:id', (req, res) => {
+  const userId = req.params.id;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  // Send a request to the separate microservice to get the user data
+  fetch(`http://user-service/users/${userId}`, options)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error retrieving user data');
+      }
+      return response.json();
+    })
+    .then(user => {
+      res.json(user);
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message });
+    });
+});
+
+// MY NEXT LINE ITEM WILL BE: 10 - Ensure that all APIs follow a consistent naming convention and use proper HTTP verbs and response codes.
+
+
+
+
+
