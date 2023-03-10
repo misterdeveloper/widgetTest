@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign-up Page</title>
+  </head>
+  <body>
+    <h1>Sign up</h1>
+    <form>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required><br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required><br><br>
+      <button type="submit">Sign up</button>
+    </form>
+    <div id="message"></div>
+    <script>
+      const form = document.querySelector('form');
+      const message = document.querySelector('#message');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.querySelector('#username').value;
+        const password = document.querySelector('#password').value;
+        const response = await fetch('/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username,
+            password
+          })
+        });
+        if (response.status === 200) {
+          const data = await response.json();
+          localStorage.setItem('token', data.token);
+          window.location.href = '/dashboard';
+        } else {
+          const error = await response.json();
+          message.innerHTML = error.message;
+        }
+      });
+    </script>
+  </body>
+</html>
