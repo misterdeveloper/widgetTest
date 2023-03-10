@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Dashboard</h1>
+  <p>Welcome, <span id="username"></span>!</p>
+  <button id="logout-button">Logout</button>
+
+  <script>
+    // Helper function to read a cookie
+    function readCookie(name) {
+      const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+      return cookieValue ? cookieValue.pop() : '';
+    }
+
+    // Send an AJAX request to get the current user's information
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/users/me');
+    xhr.setRequestHeader('Authorization', readCookie('token'));
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        const user = JSON.parse(xhr.responseText);
+        document.getElementById('username').textContent = user.username;
+      }
+    };
+    xhr.send();
+
+    // Attach event listener to the logout button
+    const logoutButton = document.getElementById('logout-button');
+    logoutButton.addEventListener('click', function() {
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      window.location.href = '/login';
+    });
+  </script>
+</body>
+</html>
+
+/*
+
+In this example, the page first retrieves the current user's information by sending an AJAX request to the /users/me endpoint with the user's token as a header. The response is expected to be a JSON object with the user's information, which is then displayed on the page.
+
+The page also includes a logout button that, when clicked, deletes the user's token cookie and redirects the user to the login page.
+
+*/
